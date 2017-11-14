@@ -6,6 +6,8 @@ var app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.text())
 
+app.set('port', (process.env.PORT || 8080));
+
 app.get('/', function (req, res) {
    res.send("Hello World");
 })
@@ -139,9 +141,9 @@ app.post('/riskreport/detailed', function(req, res) {
 
 
 
-var server = app.listen(8080, function () {
+var server = app.listen(app.get('port'), function () {
 	
 	var host = server.address().address
 	var port = server.address().port
-	console.log("Pseudo Server listening at http://%s:%s", host, port)
+	console.log("Pseudo Server listening on port %s", app.get('port'))
 })
