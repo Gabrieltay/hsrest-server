@@ -14,5 +14,9 @@
   },
   "engines": {
     "node": "8.9.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidloke/hsrest-server"
+  },
 }
