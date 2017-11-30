@@ -186,7 +186,7 @@ app.put('/watchblacklist/:entityid', function(req,res) {
         checkPayloadAttribute("updateEntity", reqBody.updateEntity, errorFieldList)
 
         res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
-
+    }
 
 })
 
