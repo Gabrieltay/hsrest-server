@@ -13,12 +13,12 @@ app.get('/', function (req, res) {
 })
 
 var errorCodeMessageMap = { 200: "",
-							401: "Authentication Failure", 
-							404: "Not Found",
-							407: "Authentication Failure",
-							422: "Invalid startDate format (hardcoded attribute for this errorCode)",
-	 						504: "Request Timeout",
-	 						999: "No such error code for debugging. Please refer to documentation"}
+                            401: "Authentication Failure", 
+                            404: "Not Found",
+                            407: "Authentication Failure",
+                            422: "Invalid startDate format (hardcoded attribute for this errorCode)",
+                            504: "Request Timeout",
+                            999: "No such error code for debugging. Please refer to documentation"}
 
 function checkPayloadAttribute(attributeName, reqBodyAttribute, errorFieldList){
 	if (reqBodyAttribute == undefined){
@@ -139,6 +139,13 @@ app.post('/riskreport/detailed', function(req, res) {
 	
 })
 
+app.post('/watchblacklist', function(req,res) {
+    res.send("watchblacklist post")
+})
+
+app.put('/watchblacklist', function(req,res) {
+    res.send("watchblacklist put")
+})
 
 
 var server = app.listen(app.get('port'), function () {
