@@ -164,8 +164,30 @@ app.post('/watchblacklist', function(req,res) {
     }
 })
 
-app.put('/watchblacklist', function(req,res) {
-    res.send("watchblacklist put")
+app.put('/watchblacklist/:entityid', function(req,res) {
+    var reqBody = req.body
+
+    if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
+        reqBody.hasOwnProperty('updateEntity')) {
+
+        // For all parameters
+        var safeErrorCode = 200
+        if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
+            safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
+        }
+        res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}, "Record Updated": req.params.grantid}) 
+
+
+    } else {
+
+        var errorFieldList = []
+        checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
+        checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
+        checkPayloadAttribute("updateEntity", reqBody.updateEntity, errorFieldList)
+
+        res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
+
+
 })
 
 
