@@ -140,7 +140,28 @@ app.post('/riskreport/detailed', function(req, res) {
 })
 
 app.post('/watchblacklist', function(req,res) {
-    res.send("watchblacklist post")
+    var reqBody = req.body
+
+    if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
+        reqBody.hasOwnProperty('entityItemList')) { 
+
+        // For all parameters
+        var safeErrorCode = 200
+        if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
+            safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
+        }
+        res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}})
+
+    } else {
+
+        var errorFieldList = []
+        checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
+        checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
+        checkPayloadAttribute("entityItemList", reqBody.startDate, errorFieldList)
+
+        res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
+
+    }
 })
 
 app.put('/watchblacklist', function(req,res) {
