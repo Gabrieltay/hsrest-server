@@ -157,7 +157,7 @@ app.post('/watchblacklist', function(req,res) {
         var errorFieldList = []
         checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
         checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-        checkPayloadAttribute("entityItemList", reqBody.startDate, errorFieldList)
+        checkPayloadAttribute("entityItemList", reqBody.entityItemList, errorFieldList)
 
         res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
 
