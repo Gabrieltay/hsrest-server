@@ -356,65 +356,6 @@ var definitions = {
 		}
 	}
 	
-	
-	/*,
-	"watchBlackListEntity" : {
-		"type": "object",
-		"properties": {
-			"entityType": {
-				"type": ["string", "null"]
-			},
-			"entityName": {
-				"type": ["string", "null"]
-			},
-			"entityID": {
-				"type": ["string", "null"]
-			},
-			"certificationNumber": {
-				"type": ["string", "null"]
-			},
-			"blacklist": {
-				"type": ["object", "null"],
-				"properties": {
-					"agencyList": {
-						"type": "array",
-						"items": {
-							"type": ["string", "null"]
-						},
-					},
-					"reason": {
-						"type": ["string", "null"]
-					}
-				}
-			},
-			"watchlist": {
-				"type": ["object", "null"],
-				"properties": {
-					"agencyList": {
-						"type": "array",
-						"items": {
-							"type": ["string", "null"]
-						},
-					},
-					"reason": {
-						"type": ["string", "null"],
-					}
-				}
-			}
-		}
-	}*/
-	
 }
 
 module.exports = definitions
-
-
-//var Ajv = require('ajv');
-//var ajv = new Ajv({allErrors: true}); 	
-
-//var validate = ajv.addSchema(AddressField).addSchema(ContactPerson).compile(ApplicationContactInfo);
-//var valid = validate({
-//"contactPerson": { "contactPersonName": "Doe", "contactPersonEmail": "asdas"},
-//"faoobar" : {"abc":"asd"}
-//});
-//if (!valid) console.log(validate.errors);
