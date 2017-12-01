@@ -206,7 +206,7 @@ function checkApplicationInfo(reqApplicationInfo) {
     var expectedAttributes = ["applicationID", "userNric", "userName", "industryType", "developmentCategory", "functionalArea", "subFunctionalArea", "applicationStatus"]
     var missingAttributes = []
     for (a in expectedAttributes) { 
-        if !(reqApplicationInfo.hasOwnProperty(a)) { 
+        if (!(reqApplicationInfo.hasOwnProperty(a))) { 
             missingAttributes.push(key)
         }
     }
