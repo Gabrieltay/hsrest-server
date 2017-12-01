@@ -201,6 +201,10 @@ var server = app.listen(app.get('port'), function () {
 
 function checkApplicationInfo(reqApplicationInfo) {
 
-    console.log(reqApplicationInfo)
+    if (reqApplicationInfo.hasOwnProperty('abc')) {
+        reqApplicationInfo["status"] = "True"
+    } else {
+        reqApplicationInfo["status"] = "False"
+    }
 
 }
