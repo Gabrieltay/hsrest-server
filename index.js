@@ -1,117 +1,172 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var definitions = require('./definitions.js')
+var Ajv = require('ajv');
+
 
 var app = express()
-
 app.use(bodyParser.json())
 app.use(bodyParser.text())
-
 app.set('port', (process.env.PORT || 8080));
+
 
 app.get('/', function (req, res) {
    res.send("Hello World");
 })
 
 var errorCodeMessageMap = { 200: "",
-                            401: "Authentication Failure", 
+                            400: "Request data field Error",
+                            401: "Authentication Failure",
                             404: "Not Found",
                             407: "Authentication Failure",
                             422: "Invalid startDate format (hardcoded attribute for this errorCode)",
                             504: "Request Timeout",
                             999: "No such error code for debugging. Please refer to documentation"}
 
+var singleMissingAttributeError = " attribute is required" 
+var manyMissingAttributeError = " attributes are required"
+var missingAttributeDelimiter = ", "
+
 function checkPayloadAttribute(attributeName, reqBodyAttribute, errorFieldList){
 	if (reqBodyAttribute == undefined){
 		errorFieldList.push(attributeName)
 	}
 }
-							
+
+function formatJsonValidatorErrors(parentKey, errorList) {
+	var missingKeys = []
+	for (i in errorList) {
+		missingKeys.push(parentKey + errorList[i].dataPath + "." + errorList[i].params.missingProperty)
+	}
+	return missingKeys
+}
+
+function checkChildKeys(jsonBody, parentKey) {
+	if (definitions.hasOwnProperty(parentKey)) {
+		var ajv = new Ajv({allErrors: true})
+		var validate = ajv.addSchema(definitions["addressField"]).addSchema(definitions["contactPerson"]).addSchema(definitions["costItem"]).compile(definitions[parentKey])
+		var valid = validate(jsonBody)
+		if (!valid) {
+		    console.log(validate.errors);
+			return formatJsonValidatorErrors(parentKey, validate.errors)
+		}
+	} 
+	return []
+}
+
+function checkParentKeys(jsonBody, expectedParentKeys) {
+    var missingParentKeys = []
+    for (i in expectedParentKeys) {
+        if (!(jsonBody.hasOwnProperty(expectedParentKeys[i]))) {
+            missingParentKeys.push(expectedParentKeys[i])
+        }
+    }
+    return missingParentKeys
+}
+
+function generateResponseBody(statusCode, requestId, dataErrorMessage) { 
+    
+	return { 'statusCode': parseInt(statusCode), 'body': {'requestID': requestId, 'dataError': dataErrorMessage }}
+	
+} 
+
+function customErrorHandler(reqBody){
+						
+    if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != "") {
+        var santizedErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
+        return [santizedErrorCode, generateResponseBody(santizedErrorCode, reqBody.transactionID, errorCodeMessageMap[santizedErrorCode])]
+    }
+    return []
+
+}
+
 app.post('/grantinfo', function(req, res) {
 
-	var reqBody = req.body
+    var reqBody = req.body
 
-	if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
-	    reqBody.hasOwnProperty('applicationInfo') && reqBody.hasOwnProperty('applicationContactInfo') &&
-		reqBody.hasOwnProperty('applicationLocationDeployed') && reqBody.hasOwnProperty('claimInfo') &&
-		reqBody.hasOwnProperty('claimContactInfo') && reqBody.hasOwnProperty('claimLocationDeployed') &&
-		reqBody.hasOwnProperty('companyGeneralInfo') && reqBody.hasOwnProperty('projectInfo') ) {
-
-                var missingAttributes = []
-                missingAttributes.concat(checkApplicationInfo(reqBody.applicationInfo))
-
-		// For all parameters 
-		var safeErrorCode = 200
-		if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
-			safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
-		} 
-		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode], "missingAttributes": missingAttributes}})
-
-	} else {
+    resPayload = customErrorHandler(reqBody)
+    if (resPayload.length == 2) {
+        res.status(resPayload[0]).json(resPayload[1])
+    } else {
 		
-		var errorFieldList = []
-		checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
-		checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-		checkPayloadAttribute("applicationInfo", reqBody.applicationInfo, errorFieldList)
-		checkPayloadAttribute("applicationContactInfo", reqBody.applicationContactInfo, errorFieldList)
-		checkPayloadAttribute("applicationLocationDeployed", reqBody.applicationLocationDeployed, errorFieldList)
-		checkPayloadAttribute("claimInfo", reqBody.claimInfo, errorFieldList)
-		checkPayloadAttribute("claimContactInfo", reqBody.claimContactInfo, errorFieldList)
-		checkPayloadAttribute("claimLocationDeployed", reqBody.claimLocationDeployed, errorFieldList)
-		checkPayloadAttribute("companyGeneralInfo", reqBody.companyGeneralInfo, errorFieldList)
-		checkPayloadAttribute("projectInfo", reqBody.projectInfo, errorFieldList)
-		
-		res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
-	}
+        var expectedParentAttributes = ["transactionID", "transactionTime", "applicationInfo", "applicationContactInfo", "applicationLocationDeployed", "claimInfo", "claimContactInfo", "claimLocationDeployed", "companyGeneralInfo", "projectInfo"]
+        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+        var missingChildAttributes = []
 
+        for (i in expectedParentAttributes) {
+            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+            }
+        } 
+
+        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
+
+        if (allMissingAttributes.length > 0) {
+            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        } else {
+            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+        }
+    }
 })
+
 							
 app.put('/grantinfo/:grantid', function(req, res) {
+
 	var reqBody = req.body
-	if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
-	    reqBody.hasOwnProperty('type') && reqBody.hasOwnProperty('data')) {
-
-		// For all parameters
-		var safeErrorCode = 200
-		if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
-			safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
-		} 
-		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}, "Record Updated": req.params.grantid})
-
-	} else {
+	
+    resPayload = customErrorHandler(reqBody)
+    if (resPayload.length == 2) {
+        res.status(resPayload[0]).json(resPayload[1])
+    } else {
 		
-		var errorFieldList = []
-		checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
-		checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-		checkPayloadAttribute("type", reqBody.type, errorFieldList)
-		checkPayloadAttribute("data", reqBody.data, errorFieldList)
-		
-		res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
-	}
+        var expectedParentAttributes = ["transactionID", "transactionTime", "type", "data"]
+        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+        var missingChildAttributes = []
+
+        for (i in expectedParentAttributes) {
+            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+            }
+        } 
+
+        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
+
+        if (allMissingAttributes.length > 0) {
+            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        } else {
+            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+        }
+    }
+	
 })
 
 app.post('/riskreport/adhoc', function(req, res) {
 
 	var reqBody = req.body
-
-	if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
-	    reqBody.hasOwnProperty('applicationID')) {
-
-		// For all parameters 
-		var safeErrorCode = 200
-		if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
-			safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
-		} 
-		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}})
-
-	} else {
+	
+    resPayload = customErrorHandler(reqBody)
+    if (resPayload.length == 2) {
+        res.status(resPayload[0]).json(resPayload[1])
+    } else {
 		
-		var errorFieldList = []
-		checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
-		checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-		checkPayloadAttribute("applicationID", reqBody.applicationID, errorFieldList)
-		
-		res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
-	}
+        var expectedParentAttributes = ["transactionID", "transactionTime", "applicationID"]
+        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+        var missingChildAttributes = []
+
+        for (i in expectedParentAttributes) {
+            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+            }
+        } 
+
+        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
+
+        if (allMissingAttributes.length > 0) {
+            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        } else {
+            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+        }
+    }
 
 })
 														
@@ -119,76 +174,85 @@ app.post('/riskreport/detailed', function(req, res) {
 	
 	var reqBody = req.body
 	
-	if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
-	    reqBody.hasOwnProperty('startDate') && reqBody.hasOwnProperty('endDate')) {
+    resPayload = customErrorHandler(reqBody)
+    if (resPayload.length == 2) {
+        res.status(resPayload[0]).json(resPayload[1])
+    } else {
 		
-		// For all parameters 
-		var safeErrorCode = 200
-		if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
-			safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
-		} 
-		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}})
-			
-	} else {
-		
-		var errorFieldList = []
-		checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
-		checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-		checkPayloadAttribute("startDate", reqBody.startDate, errorFieldList)
-		checkPayloadAttribute("endDate", reqBody.endDate, errorFieldList)
-		
-		res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
-	}
+        var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate"]
+        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+        var missingChildAttributes = []
+
+        for (i in expectedParentAttributes) {
+            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+            }
+        } 
+
+        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
+
+        if (allMissingAttributes.length > 0) {
+            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        } else {
+            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+        }
+    }
 	
 })
 
 app.post('/watchblacklist', function(req,res) {
-    var reqBody = req.body
-
-    if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
-        reqBody.hasOwnProperty('entityItemList')) { 
-
-        // For all parameters
-        var safeErrorCode = 200
-        if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
-            safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
-        }
-        res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}})
-
+	var reqBody = req.body
+	
+    resPayload = customErrorHandler(reqBody)
+    if (resPayload.length == 2) {
+        res.status(resPayload[0]).json(resPayload[1])
     } else {
+		
+        var expectedParentAttributes = ["transactionID", "transactionTime", "entityItemList"]
+        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+        var missingChildAttributes = []
 
-        var errorFieldList = []
-        checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
-        checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-        checkPayloadAttribute("entityItemList", reqBody.entityItemList, errorFieldList)
+        for (i in expectedParentAttributes) {
+            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+            }
+        } 
 
-        res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
+        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
 
+        if (allMissingAttributes.length > 0) {
+            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        } else {
+            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+        }
     }
 })
 
 app.put('/watchblacklist/:entityid', function(req,res) {
-    var reqBody = req.body
-
-    if (reqBody.hasOwnProperty('transactionID') && reqBody.hasOwnProperty('transactionTime') &&
-        reqBody.hasOwnProperty('updateEntity')) {
-
-        // For all parameters
-        var safeErrorCode = 200
-        if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
-            safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
-        }
-        res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}, "Record Updated": req.params.entityid}) 
-
-
+	var reqBody = req.body
+	
+    resPayload = customErrorHandler(reqBody)
+    if (resPayload.length == 2) {
+        res.status(resPayload[0]).json(resPayload[1])
     } else {
+		
+        var expectedParentAttributes = ["transactionID", "transactionTime", "updateEntity"]
+        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+        var missingChildAttributes = []
 
-        var errorFieldList = []
-        checkPayloadAttribute("transactionID", reqBody.transactionID, errorFieldList)
-        checkPayloadAttribute("transactionTime", reqBody.transactionTime, errorFieldList)
-        checkPayloadAttribute("updateEntity", reqBody.updateEntity, errorFieldList)
+        for (i in expectedParentAttributes) {
+            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+            }
+        } 
 
-        res.status(400).json({ "statusCode": 400, "body": {"requestID": reqBody.transcationID, "dataError": errorFieldList.join(", ") + (errorFieldList.length > 1 ? " attributes are " : " attribute is ") + "required"}})
+        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
+
+        if (allMissingAttributes.length > 0) {
+            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        } else {
+            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+        }
     }
 
 })
@@ -205,9 +269,14 @@ function checkApplicationInfo(reqApplicationInfo) {
 
     var expectedAttributes = ["applicationID", "userNric", "userName", "industryType", "developmentCategory", "functionalArea", "subFunctionalArea", "applicationStatus"]
     var missingAttributes = []
-    for (a in expectedAttributes) { 
-        if (!(reqApplicationInfo.hasOwnProperty(a))) { 
-            missingAttributes.push(key)
+
+    if (reqApplicationInfo == undefined) {
+         missingAttributes = expectedAttributes
+    } else { 
+        for (a in expectedAttributes) {
+            if (!(reqApplicationInfo.hasOwnProperty(expectedAttributes[a]))) { 
+                missingAttributes.push(expectedAttributes[a])
+            }
         }
     }
 

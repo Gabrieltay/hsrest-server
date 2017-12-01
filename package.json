@@ -9,6 +9,7 @@
   "author": "Lup Peng",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^5.5.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2"
   },
