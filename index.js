@@ -42,7 +42,7 @@ app.post('/grantinfo', function(req, res) {
 		if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
 			safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
 		} 
-		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode]}})
+		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode], "applicationInfo": reqBody.applicationInfo}})
 
 	} else {
 		
