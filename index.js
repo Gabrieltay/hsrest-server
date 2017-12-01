@@ -35,14 +35,16 @@ app.post('/grantinfo', function(req, res) {
 		reqBody.hasOwnProperty('applicationLocationDeployed') && reqBody.hasOwnProperty('claimInfo') &&
 		reqBody.hasOwnProperty('claimContactInfo') && reqBody.hasOwnProperty('claimLocationDeployed') &&
 		reqBody.hasOwnProperty('companyGeneralInfo') && reqBody.hasOwnProperty('projectInfo') ) {
-                checkApplicationInfo(reqBody.applicationInfo)
+
+                var missingAttributes = []
+                missingAttributes.concat(checkApplicationInfo(reqBody.applicationInfo))
 
 		// For all parameters 
 		var safeErrorCode = 200
 		if (reqBody.hasOwnProperty('errorCode') && reqBody.errorCode != ""){
 			safeErrorCode = reqBody.errorCode in errorCodeMessageMap ? reqBody.errorCode : 999
 		} 
-		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode], "applicationInfo": reqBody.applicationInfo}})
+		res.status(safeErrorCode).json({ "statusCode": safeErrorCode, "body": {"requestID": reqBody.transactionID, "dataError": errorCodeMessageMap[safeErrorCode], "missingAttributes": missingAttributes}})
 
 	} else {
 		
@@ -201,10 +203,14 @@ var server = app.listen(app.get('port'), function () {
 
 function checkApplicationInfo(reqApplicationInfo) {
 
-    if (reqApplicationInfo.hasOwnProperty('abc')) {
-        reqApplicationInfo["status"] = "True"
-    } else {
-        reqApplicationInfo["status"] = "False"
+    var expectedAttributes = ["applicationID", "userNric", "userName", "industryType", "developmentCategory", "functionalArea", "subFunctionalArea", "applicationStatus"]
+    var missingAttributes = []
+    for (a in expectedAttributes) { 
+        if !(reqApplicationInfo.hasOwnProperty(a)) { 
+            missingAttributes.push(key)
+        }
     }
+
+    return missingAttributes
 
 }
