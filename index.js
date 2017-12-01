@@ -35,6 +35,7 @@ app.post('/grantinfo', function(req, res) {
 		reqBody.hasOwnProperty('applicationLocationDeployed') && reqBody.hasOwnProperty('claimInfo') &&
 		reqBody.hasOwnProperty('claimContactInfo') && reqBody.hasOwnProperty('claimLocationDeployed') &&
 		reqBody.hasOwnProperty('companyGeneralInfo') && reqBody.hasOwnProperty('projectInfo') ) {
+                checkApplicationInfo(reqBody.applicationInfo)
 
 		// For all parameters 
 		var safeErrorCode = 200
@@ -197,3 +198,9 @@ var server = app.listen(app.get('port'), function () {
 	var port = server.address().port
 	console.log("Pseudo Server listening on port %s", app.get('port'))
 })
+
+function checkApplicationInfo(reqApplicationInfo) {
+
+    console.log(reqApplicationInfo)
+
+}
