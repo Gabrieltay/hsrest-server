@@ -168,7 +168,7 @@ var definitions = {
 				"format": "date-time"
 			},
 			"costs": {
-				"type": "array",
+				"type": ["array", "null"],
 				"items": {
 				"$ref": "CostItem"
 				}
