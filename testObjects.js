@@ -38,7 +38,7 @@ var testObjects = {
         "applicationLocationDeployed": {
             "locationDeployedType": "Home Office",
             "locationDeployedProjectAddress": null,
-            "locationDeployedAddress": {
+            "locationDeployedAddresses": [{
                 "addressType": null,
                 "foreignAddress1": null,
                 "foreignAddress2": null,
@@ -48,7 +48,7 @@ var testObjects = {
                 "buildingName": null,
                 "unit": "70",
                 "postalCode": "386018"
-            }
+            }]
         },
         "claimInfo": {
             "applicationID": "1501AB24",
@@ -156,7 +156,7 @@ var testObjects = {
         "applicationLocationDeployed": {
             "locationDeployedType": "Home Office",
             "locationDeployedProjectAddress": null,
-            "locationDeployedAddress": {
+            "locationDeployedAddresses": [{
                 "addressType": null,
                 "foreignAddress1": null,
                 "foreignAddress2": null,
@@ -166,7 +166,7 @@ var testObjects = {
                 "buildingName": null,
                 "unit": "70",
                 "postalCode": "386018"
-            }
+            }]
         },
         "claimInfo": {
             "applicationID": "1501AB24",
