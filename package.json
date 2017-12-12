@@ -13,8 +13,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "engines": {
     "node": "8.9.1"
   },
