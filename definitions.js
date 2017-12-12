@@ -131,7 +131,7 @@ var definitions = {
 
 	"claimLocationDeployed" : {
 		"type": "object",
-		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"],
+		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
 		"properties": {
 			"locationDeployedType": {
 				"type": ["string", "null"]
@@ -139,8 +139,11 @@ var definitions = {
 			"locationDeployedProjectAddress": {
 				"type": ["string", "null"]
 			},
-			"locationDeployedAddress": {
-				"$ref": "AddressField"
+			"locationDeployedAddresses": {
+				"type": ["array", "null"],
+				"items": {
+				    "$ref": "AddressField"
+				}
 			}
 		}
 	},
