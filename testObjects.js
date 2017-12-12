@@ -40,8 +40,6 @@ var testObjects = {
             "locationDeployedProjectAddress": null,
             "locationDeployedAddresses": [{
                 "addressType": null,
-                "foreignAddress1": null,
-                "foreignAddress2": null,
                 "block": "678",
                 "street": "Garlick Avenue",
                 "level": "70",
@@ -79,8 +77,6 @@ var testObjects = {
             "locationDeployedProjectAddress": null,
             "locationDeployedAddresses": [{
                 "addressType": null,
-                "foreignAddress1": null,
-                "foreignAddress2": null,
                 "block": "678",
                 "street": "Garlick Avenue",
                 "level": "70",
@@ -158,8 +154,6 @@ var testObjects = {
             "locationDeployedProjectAddress": null,
             "locationDeployedAddresses": [{
                 "addressType": null,
-                "foreignAddress1": null,
-                "foreignAddress2": null,
                 "block": "678",
                 "street": "Garlick Avenue",
                 "level": "70",
@@ -196,8 +190,6 @@ var testObjects = {
             "locationDeployedProjectAddress": null,
             "locationDeployedAddresses": [{
                 "addressType": null,
-                "foreignAddress1": null,
-                "foreignAddress2": null,
                 "block": "678",
                 "street": "Garlick Avenue",
                 "level": "70",
@@ -206,8 +198,6 @@ var testObjects = {
                 "postalCode": "386018"
             },{
                 "addressType": null,
-                "foreignAddress2": null,
-                "block": "678",
                 "street": "Garlick Avenue",
                 "level": "70",
                 "buildingName": null,
@@ -223,7 +213,7 @@ var testObjects = {
         "statusCode": 400,
         "body": {
             "requestID": "1501AB24",
-            "dataError": "projectInfo, claimLocationDeployed.locationDeployedType, claimLocationDeployed.locationDeployedAddresses[1].foreignAddress1 attributes are required"
+            "dataError": "projectInfo, claimLocationDeployed.locationDeployedType, claimLocationDeployed.locationDeployedAddresses[1].block attributes are required"
         }
     },
 

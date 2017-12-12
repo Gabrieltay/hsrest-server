@@ -63,6 +63,7 @@ testEndpoint('POST', grantInfoEndpoint, {'errorCode': 407}, error407Response, 'C
 testEndpoint('POST', grantInfoEndpoint, {'errorCode': 422}, error422Response, 'Custom Error 422');
 testEndpoint('POST', grantInfoEndpoint, {'errorCode': 504}, error504Response, 'Custom Error 504');
 
+
 // Grant Info Endpoint - PUT
 testEndpoint('PUT', grantInfoEndpoint + testUrlResource, testObjects['grantInfoCorrectPutReq'], testObjects['grantInfoCorrectPutRes'], 'Well Formed Request')
 testEndpoint('PUT', grantInfoEndpoint + testUrlResource, testObjects['grantInfoWrongPutReq'], testObjects['grantInfoWrongPutRes'], 'Malformed Request')
@@ -112,3 +113,4 @@ testEndpoint('PUT', watchblacklistEndpoint + testUrlResource, {'errorCode': 404}
 testEndpoint('PUT', watchblacklistEndpoint + testUrlResource, {'errorCode': 407}, error407Response, 'Custom Error 407');
 testEndpoint('PUT', watchblacklistEndpoint + testUrlResource, {'errorCode': 422}, error422Response, 'Custom Error 422');
 testEndpoint('PUT', watchblacklistEndpoint + testUrlResource, {'errorCode': 504}, error504Response, 'Custom Error 504');
+
