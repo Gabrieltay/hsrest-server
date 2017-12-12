@@ -258,7 +258,7 @@ var definitions = {
 	"correspondenceAddressField" : {
 		"id": "CorrespondenceAddressField",
 		"type": "object",
-		"required":["addressType","foreignAddress1", "foreignAddress2", "block", "street", "level", "buildingName", "unit", "postalCode"],
+		"required":["addressType", "foreignAddress1", "foreignAddress2", "block", "street", "level", "buildingName", "unit", "postalCode"],
 		"properties": {
 			"addressType": {
 				"type": ["string", "null"]
