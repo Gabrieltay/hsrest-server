@@ -48,10 +48,9 @@ var definitions = {
 			},
 			"contactPersonSecondaryEmail": {
 				"type": ["string", "null"]
-			},
-						
+			},		
 			"correspondenceAddress": {
-				"$ref": "AddressField"
+				"$ref": "CorrespondenceAddressField"
 			},
 			"lofAddresseeName": {
 				"type": ["string", "null"]
@@ -78,7 +77,7 @@ var definitions = {
 			"locationDeployedAddresses": {
 				"type": ["array", "null"],
 				"items": {
-				    "$ref": "AddressField"
+				    "$ref": "DeployedAddressField"
 				}
 			}
 		}
@@ -125,7 +124,7 @@ var definitions = {
 			},
 			
 			"correspondenceAddress": {
-				"$ref": "AddressField"
+				"$ref": "CorrespondenceAddressField"
 			}
 		}
 	},
@@ -144,7 +143,7 @@ var definitions = {
 			"locationDeployedAddresses": {
 				"type": ["array", "null"],
 				"items": {
-				    "$ref": "AddressField"
+				    "$ref": "DeployedAddressField"
 				}
 			}
 		}
@@ -227,8 +226,37 @@ var definitions = {
 		}
 	},
 
-	"addressField" : {
-		"id": "AddressField",
+	"correspondenceAddressField" : {
+		"id": "CorrespondenceAddressField",
+		"type": "object",
+		"required":["addressType", "block", "street", "level", "buildingName", "unit","postalCode"],
+		"properties": {
+			"addressType": {
+				"type": ["string", "null"]
+			},
+			"block": {
+				"type": ["string", "null"]
+			},
+			"street": {
+				"type": ["string", "null"]
+			},
+			"level": {
+				"type": ["string", "null"]
+			},
+			"buildingName": {
+				"type": ["string", "null"]
+			},
+			"unit": {
+				"type": ["string", "null"]
+			},
+			"postalCode": {
+				"type": ["string", "null"]
+			}
+		}
+	},
+	
+	"deployedAddressField" : {
+		"id": "DeployedAddressField",
 		"type": "object",
 		"required":["addressType","foreignAddress1","foreignAddress2", "block", "street", "level", "buildingName", "unit","postalCode"],
 		"properties": {
