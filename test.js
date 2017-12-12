@@ -3,7 +3,7 @@ var http = require('http')
 var testObjects = require('./testObjects.js')
 
 // Server Properties 
-var serverUrl = "bgphs-server.herokuapp.com"
+var serverUrl = "bgphs-staging.herokuapp.com"
 var grantInfoEndpoint = "/grantinfo"
 var riskreportEndpoint = "/riskreport"
 var watchblacklistEndpoint = "/watchblacklist"

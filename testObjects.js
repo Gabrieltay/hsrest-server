@@ -77,7 +77,7 @@ var testObjects = {
         "claimLocationDeployed": {
             "locationDeployedType": "Home Office",
             "locationDeployedProjectAddress": null,
-            "locationDeployedAddress": {
+            "locationDeployedAddresses": [{
                 "addressType": null,
                 "foreignAddress1": null,
                 "foreignAddress2": null,
@@ -87,7 +87,7 @@ var testObjects = {
                 "buildingName": null,
                 "unit": "70",
                 "postalCode": "386018"
-            }
+            }]
         },
         "companyGeneralInfo": {
             "companyUEN": "663784266U"
@@ -194,7 +194,7 @@ var testObjects = {
         },
         "claimLocationDeployed": {
             "locationDeployedProjectAddress": null,
-            "locationDeployedAddress": {
+            "locationDeployedAddresses": [{
                 "addressType": null,
                 "foreignAddress1": null,
                 "foreignAddress2": null,
@@ -204,7 +204,16 @@ var testObjects = {
                 "buildingName": null,
                 "unit": "70",
                 "postalCode": "386018"
-            }
+            },{
+                "addressType": null,
+                "foreignAddress2": null,
+                "block": "678",
+                "street": "Garlick Avenue",
+                "level": "70",
+                "buildingName": null,
+                "unit": "70",
+                "postalCode": "386018"
+            }]
         },
         "companyGeneralInfo": {
             "companyUEN": "663784266U"
@@ -214,7 +223,7 @@ var testObjects = {
         "statusCode": 400,
         "body": {
             "requestID": "1501AB24",
-            "dataError": "projectInfo, claimLocationDeployed.locationDeployedType attributes are required"
+            "dataError": "projectInfo, claimLocationDeployed.locationDeployedType, claimLocationDeployed.locationDeployedAddresses[1].foreignAddress1 attributes are required"
         }
     },
 
