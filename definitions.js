@@ -85,7 +85,7 @@ var definitions = {
 	},
 
 	"claimInfo" : {
-		"type": ["object", "null"]
+		"type": ["object", "null"],
 		"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
 		"properties": {
 			"applicationID": {
@@ -104,7 +104,7 @@ var definitions = {
 	},
 
 	"claimContactInfo" : {
-		"type": ["object", "null"]
+		"type": ["object", "null"],
 		"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
 		"required": ["contactPersonName", "contactPersonDesignation", "contactPersonPhone", "contactPersonEmail", "contactPersonSecondaryEmail", "correspondenceAddress"],
 		"properties": {
@@ -131,7 +131,7 @@ var definitions = {
 	},
 
 	"claimLocationDeployed" : {
-		"type": ["object", "null"]
+		"type": ["object", "null"],
 		"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
 		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
 		"properties": {
