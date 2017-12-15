@@ -268,7 +268,7 @@ var definitions = {
 	"locationDeployedObject": {
 		"id": "LocationDeployedObject",
 		"type": "object",
-		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"]
+		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"],
 		"properties": {
 			"locationDeployedType": {
 				"type": ["string", "null"]
@@ -279,9 +279,8 @@ var definitions = {
 			"locationDeployedAddress": {
 				"$ref": "DeployedAddressField"
 			}
-		}
-		
-	}
+		}	
+	},
 
 
 	"entityItemList": {
