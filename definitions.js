@@ -65,9 +65,8 @@ var definitions = {
 	},
 
 	"applicationLocationDeployed" : {
-		"type": "object",
-		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
-		"properties": {
+		"type": ["array", "null"],
+		"items": {
 			"locationDeployedType": {
 				"type": ["string", "null"]
 			},
