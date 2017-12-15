@@ -66,17 +66,8 @@ var definitions = {
 
 	"applicationLocationDeployed" : {
 		"type": ["array", "null"],
-		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"],
 		"items": {
-			"locationDeployedType": {
-				"type": ["string", "null"]
-			},
-			"locationDeployedProjectAddress": {
-				"type": ["string", "null"]
-			},
-			"locationDeployedAddress": {
-				"$ref": "DeployedAddressField"
-			}
+			"$ref": "LocationDeployedObject"
 		}
 	},
 
@@ -125,40 +116,11 @@ var definitions = {
 			}
 		}
 	},
-
-	/*"claimLocationDeployed" : {
-		"type": ["object", "null"],
-		//"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
-		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
-		"properties": {
-			"locationDeployedType": {
-				"type": ["string", "null"]
-			},
-			"locationDeployedProjectAddress": {
-				"type": ["string", "null"]
-			},
-			"locationDeployedAddresses": {
-				"type": ["array", "null"],
-				"items": {
-				    "$ref": "DeployedAddressField"
-				}
-			}
-		}
-	},*/
 		
 	"claimLocationDeployed" : {
 		"type": ["array", "null"],
-		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"],
 		"items": {
-			"locationDeployedType": {
-				"type": ["string", "null"]
-			},
-			"locationDeployedProjectAddress": {
-				"type": ["string", "null"]
-			},
-			"locationDeployedAddress": {
-				"$ref": "DeployedAddressField"
-			}
+			"$ref": "LocationDeployedObject"
 		}
 	},
 
@@ -302,6 +264,24 @@ var definitions = {
 			}
 		}
 	},
+	
+	"locationDeployedObject": {
+		"id": "LocationDeployedObject",
+		"type": "object",
+		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"]
+		"properties": {
+			"locationDeployedType": {
+				"type": ["string", "null"]
+			},
+			"locationDeployedProjectAddress": {
+				"type": ["string", "null"]
+			},
+			"locationDeployedAddress": {
+				"$ref": "DeployedAddressField"
+			}
+		}
+		
+	}
 
 
 	"entityItemList": {
