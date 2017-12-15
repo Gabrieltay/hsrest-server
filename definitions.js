@@ -124,14 +124,14 @@ var definitions = {
 			},
 			
 			"correspondenceAddress": {
-				"$ref": "CorrespondenceAddressField"
+				"$ref": "DeployedAddressField", // based on HW discussion, claim correspondence no foreignAddress. So use DeployedAddressField definition instead 
 			}
 		}
 	},
 
-	"claimLocationDeployed" : {
+	/*"claimLocationDeployed" : {
 		"type": ["object", "null"],
-		"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
+		//"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
 		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
 		"properties": {
 			"locationDeployedType": {
@@ -147,6 +147,26 @@ var definitions = {
 				}
 			}
 		}
+	},*/
+		
+	"claimLocationDeployed" : {
+		"type": ["array", "null"],
+		"items": {
+			"locationDeployedType": {
+				"type": ["string", "null"]
+			},
+			"locationDeployedProjectAddress": {
+				"type": ["string", "null"]
+			},
+			"locationDeployedAddresses": {
+				"type": ["array", "null"],
+				"items": {
+				    "$ref": "DeployedAddressField"
+				}
+			}
+		}
+		//"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
+		//"properties": 
 	},
 
 	"companyGeneralInfo" : {
