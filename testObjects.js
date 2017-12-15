@@ -35,19 +35,34 @@ var testObjects = {
             "lofAddresseeDesignation": "CEO",
             "lofAddresseeEmail": "person_b@testedtrading.com.sg"
         },
-        "applicationLocationDeployed": {
-            "locationDeployedType": "Home Office",
-            "locationDeployedProjectAddress": null,
-            "locationDeployedAddresses": [{
-                "addressType": null,
-                "block": "678",
-                "street": "Garlick Avenue",
-                "level": "70",
-                "buildingName": null,
-                "unit": "70",
-                "postalCode": "386018"
-            }]
-        },
+        "applicationLocationDeployed": [
+			{
+	            "locationDeployedType": "Home Office",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": null,
+	                "block": "678",
+	                "street": "Garlick Avenue",
+	                "level": "70",
+	                "buildingName": null,
+	                "unit": "70",
+	                "postalCode": "386018"
+	        	}
+            }, 
+			{ 
+	            "locationDeployedType": "Park",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": "Park",
+	                "block": null,
+	                "street": "Bishan Park",
+	                "level": null,
+	                "buildingName": null,
+	                "unit": null,
+	                "postalCode": "567892"
+	        	}
+			}
+		],
         "claimInfo": {
             "applicationID": "1501AB24",
             "officerID": "processing.officer@example.com",
@@ -72,19 +87,34 @@ var testObjects = {
                 "postalCode": "386018"
             }
         },
-        "claimLocationDeployed": {
-            "locationDeployedType": "Home Office",
-            "locationDeployedProjectAddress": null,
-            "locationDeployedAddresses": [{
-                "addressType": null,
-                "block": "678",
-                "street": "Garlick Avenue",
-                "level": "70",
-                "buildingName": null,
-                "unit": "70",
-                "postalCode": "386018"
-            }]
-        },
+        "claimLocationDeployed": [
+			{
+	            "locationDeployedType": "Home Office",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": null,
+	                "block": "678",
+	                "street": "Garlick Avenue",
+	                "level": "70",
+	                "buildingName": null,
+	                "unit": "70",
+	                "postalCode": "386018"
+	        	}
+            }, 
+			{ 
+	            "locationDeployedType": "Park",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": "Park",
+	                "block": null,
+	                "street": "Bishan Park",
+	                "level": null,
+	                "buildingName": null,
+	                "unit": null,
+	                "postalCode": "567892"
+	        	}
+			}
+		],
         "companyGeneralInfo": {
             "companyUEN": "663784266U"
         },
@@ -118,16 +148,6 @@ var testObjects = {
     "grantInfoWrongPostReq": {
         "transactionID": "1501AB24",
         "transactionTime": "2017-12-05T16:23:54.172Z",
-        "applicationInfo": {
-            "applicationID": "1501AB24",
-            "userNric": "S1234567A",
-            "userName": "Tan Ah Seng",
-            "industryType": "Engineering Services",
-            "developmentCategory": "Capability Development",
-            "functionalArea": "IT Software",
-            "subFunctionalArea": "ICT Productivity Solutions",
-            "applicationStatus": "A2"
-        },
         "applicationContactInfo": {
             "contactPersonName": "Person A",
             "contactPersonDesignation": "CEO",
@@ -145,23 +165,37 @@ var testObjects = {
                 "unit": "70",
                 "postalCode": "386018"
             },
-            "lofAddresseeName": "Person B",
             "lofAddresseeDesignation": "CEO",
             "lofAddresseeEmail": "person_b@testedtrading.com.sg"
         },
-        "applicationLocationDeployed": {
-            "locationDeployedType": "Home Office",
-            "locationDeployedProjectAddress": null,
-            "locationDeployedAddresses": [{
-                "addressType": null,
-                "block": "678",
-                "street": "Garlick Avenue",
-                "level": "70",
-                "buildingName": null,
-                "unit": "70",
-                "postalCode": "386018"
-            }]
-        },
+        "applicationLocationDeployed": [
+			{
+	            "locationDeployedType": "Home Office",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": null,
+	                "block": "678",
+	                "street": "Garlick Avenue",
+	                "level": "70",
+	                "buildingName": null,
+	                "unit": "70",
+	                "postalCode": "386018"
+	        	}
+            }, 
+			{ 
+	            "locationDeployedType": "Park",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": "Park",
+	                "block": null,
+	                "street": "Bishan Park",
+	                "level": null,
+	                "buildingName": null,
+	                "unit": null,
+	                "postalCode": "567892"
+	        	}
+			}
+		],
         "claimInfo": {
             "applicationID": "1501AB24",
             "officerID": "processing.officer@example.com",
@@ -186,36 +220,62 @@ var testObjects = {
                 "postalCode": "386018"
             }
         },
-        "claimLocationDeployed": {
-            "locationDeployedProjectAddress": null,
-            "locationDeployedAddresses": [{
-                "addressType": null,
-                "block": "678",
-                "street": "Garlick Avenue",
-                "level": "70",
-                "buildingName": null,
-                "unit": "70",
-                "postalCode": "386018"
-            },{
-                "addressType": null,
-                "street": "Garlick Avenue",
-                "level": "70",
-                "buildingName": null,
-                "unit": "70",
-                "postalCode": "386018"
-            }]
-        },
+        "claimLocationDeployed": [
+			{
+	            "locationDeployedType": "Home Office",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": null,
+	                "block": "678",
+	                "street": "Garlick Avenue",
+	                "level": "70",
+	                "buildingName": null,
+	                "unit": "70",
+	                "postalCode": "386018"
+	        	}
+            }, 
+			{ 
+	            "locationDeployedType": "Park",
+	            "locationDeployedProjectAddress": null,
+	            "locationDeployedAddress": {
+	                "addressType": "Park",
+	                "block": null,
+	                "level": null,
+	                "buildingName": null,
+	                "unit": null,
+	                "postalCode": "567892"
+	        	}
+			}
+		],
         "companyGeneralInfo": {
             "companyUEN": "663784266U"
+        },
+        "projectInfo": {
+            "projectTitle": "Purchase Software to Improve Productivity",
+            "startDate": "2017-12-05T16:23:54.172Z",
+            "endDate": "2017-12-05T16:23:54.172Z",
+            "costs": [{
+                    "typee": "Consultancy and third party service provider",
+                    "vendorName": "Vendor A",
+                    "vendorUEN": "163784266U",
+                    "vendorSgRegisteredCheck": true
+                },
+                {
+                    "type": "Training provider",
+                    "vendorName": "Vendor B",
+                    "vendorUEN": "263784266U",
+                    "vendorSgRegisteredCheck": true
+                }
+            ]
         }
     },
     "grantInfoWrongPostRes": {
-        "statusCode": 400,
-        "body": {
-            "requestID": "1501AB24",
-            "dataError": "projectInfo, claimLocationDeployed.locationDeployedType, claimLocationDeployed.locationDeployedAddresses[1].block attributes are required"
-        }
-    },
+	    "statusCode": 400,
+	    "body": {
+	        "requestID": "1501AB24",
+	        "dataError": "applicationInfo, applicationContactInfo.lofAddresseeName, claimLocationDeployed[1].locationDeployedAddress.street, projectInfo.costs[0].type attributes are required"
+	    }
+	},
 
     // PUT /grantinfo/:item
     "grantInfoCorrectPutReq": {
