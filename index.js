@@ -44,7 +44,7 @@ function formatJsonValidatorErrors(parentKey, errorList) {
 function checkChildKeys(jsonBody, parentKey) {
 	if (definitions.hasOwnProperty(parentKey)) {
 		var ajv = new Ajv({allErrors: true})
-		var validate = ajv.addSchema(definitions["correspondenceAddressField"]).addSchema(definitions["deployedAddressField"]).addSchema(definitions["contactPerson"]).addSchema(definitions["costItem"]).compile(definitions[parentKey])
+		var validate = ajv.addSchema(definitions["locationDeployedObject"]).addSchema(definitions["correspondenceAddressField"]).addSchema(definitions["deployedAddressField"]).addSchema(definitions["contactPerson"]).addSchema(definitions["costItem"]).compile(definitions[parentKey])
 		var valid = validate(jsonBody)
 		if (!valid) {
 		    console.log(validate.errors);
