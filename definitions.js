@@ -66,6 +66,7 @@ var definitions = {
 
 	"applicationLocationDeployed" : {
 		"type": ["array", "null"],
+		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"],
 		"items": {
 			"locationDeployedType": {
 				"type": ["string", "null"]
@@ -73,11 +74,8 @@ var definitions = {
 			"locationDeployedProjectAddress": {
 				"type": ["string", "null"]
 			},
-			"locationDeployedAddresses": {
-				"type": ["array", "null"],
-				"items": {
-				    "$ref": "DeployedAddressField"
-				}
+			"locationDeployedAddress": {
+				"$ref": "DeployedAddressField"
 			}
 		}
 	},
@@ -150,6 +148,7 @@ var definitions = {
 		
 	"claimLocationDeployed" : {
 		"type": ["array", "null"],
+		"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddress"],
 		"items": {
 			"locationDeployedType": {
 				"type": ["string", "null"]
@@ -157,15 +156,10 @@ var definitions = {
 			"locationDeployedProjectAddress": {
 				"type": ["string", "null"]
 			},
-			"locationDeployedAddresses": {
-				"type": ["array", "null"],
-				"items": {
-				    "$ref": "DeployedAddressField"
-				}
+			"locationDeployedAddress": {
+				"$ref": "DeployedAddressField"
 			}
 		}
-		//"required": ["locationDeployedType", "locationDeployedProjectAddress", "locationDeployedAddresses"],
-		//"properties": 
 	},
 
 	"companyGeneralInfo" : {
