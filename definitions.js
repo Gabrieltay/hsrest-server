@@ -203,7 +203,7 @@ var definitions = {
 
 	"deployedAddressField" : {
 		"id": "DeployedAddressField",
-		"type": "object",
+		"type": ["object", "null"],
 		"required":["addressType", "block", "street", "level", "buildingName", "unit", "postalCode"],
 		"properties": {
 			"addressType": {
