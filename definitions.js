@@ -277,8 +277,11 @@ var definitions = {
 				"type": ["string", "null"]
 			},
 			"locationDeployedAddress": {
-				"type": ["object", "null"]//,
-				//"$ref": "DeployedAddressField"
+				"oneOf": [
+					{"$ref": "DeployedAddressField"},
+					"null"
+				]
+				
 			}
 		}	
 	},
