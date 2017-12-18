@@ -278,9 +278,7 @@ var definitions = {
 			},
 			"locationDeployedAddress": {
 				"type": ["object", "null"],
-				"properties": {
-					"$ref": "DeployedAddressField"
-				}
+				"$ref": "DeployedAddressField"
 			}
 		}	
 	},
