@@ -278,6 +278,7 @@ var definitions = {
 			},
 			"locationDeployedAddress": {
 				"type": ["object", "null"],
+				"required":["addressType", "foreignAddress1", "foreignAddress2", "block", "street", "level", "buildingName", "unit", "postalCode"],
 				"properties": {
 					"addressType": {
 						"type": ["string", "null"]
