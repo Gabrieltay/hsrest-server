@@ -278,7 +278,35 @@ var definitions = {
 			},
 			"locationDeployedAddress": {
 				"type": ["object", "null"],
-				"$ref": "DeployedAddressField"
+				"properties": {
+					"addressType": {
+						"type": ["string", "null"]
+					},
+					"foreignAddress1": {
+						"type": ["string", "null"]
+					},
+					"foreignAddress2": {
+						"type": ["string", "null"]
+					},
+					"block": {
+						"type": ["string", "null"]
+					},
+					"street": {
+						"type": ["string", "null"]
+					},
+					"level": {
+						"type": ["string", "null"]
+					},
+					"buildingName": {
+						"type": ["string", "null"]
+					},
+					"unit": {
+						"type": ["string", "null"]
+					},
+					"postalCode": {
+						"type": ["string", "null"]
+					}
+				}
 			}
 		}	
 	},
