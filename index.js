@@ -80,7 +80,7 @@ function customErrorHandler(reqBody){
 
 }
 
-app.post('/grantinfo', function(req, res) {
+app.post('/bgp/grantinfo', function(req, res) {
 
     var reqBody = req.body
 
