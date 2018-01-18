@@ -11,7 +11,7 @@ app.set('port', (process.env.PORT || 8080));
 
 
 app.get('/', function (req, res) {
-   res.send("Welcome to bgphs pseudo API serverssss");
+   res.send("Welcome to bgphs pseudo API server");
 })
 
 var errorCodeMessageMap = { 200: "",
@@ -70,6 +70,7 @@ function generateResponseBody(statusCode, requestId, dataErrorMessage) {
         'success' : parseInt(statusCode) == 200 ? true : false,
         'result' : {
             'statusCode' : parseInt(statusCode),
+            'statusLine' : "HTTP/1.1 " + parseInt(statusCode),
             'contentType' : "application/json",
             'body': {
                 'requestID': requestId, 
