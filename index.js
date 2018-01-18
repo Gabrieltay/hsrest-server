@@ -201,7 +201,7 @@ app.post('/bgp/riskreport/detailed', function(req, res) {
         res.status(resPayload[0]).json(resPayload[1])
     } else {
 		
-        var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate"]
+        var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate", "type", "grant"]
         var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
         var missingChildAttributes = []
 
