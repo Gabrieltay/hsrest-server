@@ -68,8 +68,15 @@ function generateResponseBody(statusCode, requestId, dataErrorMessage) {
     
 	return { 
         'success' : parseInt(statusCode) == 200 ? true : false,
-        'statusCode': parseInt(statusCode), 'body': {'requestID': requestId, 'dataError': dataErrorMessage }}
-	
+        'result' : {
+            'statusCode' : parseInt(statusCode),
+            'contentType' : "application/json",
+            'body': {
+                'requestID': requestId, 
+                'dataError': dataErrorMessage 
+                }
+            }
+        }
 } 
 
 function customErrorHandler(reqBody){
