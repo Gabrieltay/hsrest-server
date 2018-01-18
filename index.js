@@ -15,7 +15,7 @@ app.get('/', function (req, res) {
 })
 
 var errorCodeMessageMap = { 200: "",
-                            400: "Request data field Error",
+                            400: "Request data field Error...",
                             401: "Authentication Failure",
                             404: "Not Found",
                             407: "Authentication Failure",
