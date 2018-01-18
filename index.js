@@ -66,7 +66,9 @@ function checkParentKeys(jsonBody, expectedParentKeys) {
 
 function generateResponseBody(statusCode, requestId, dataErrorMessage) { 
     
-	return { 'statusCode': parseInt(statusCode), 'body': {'requestID': requestId, 'dataError': dataErrorMessage }}
+	return { 
+        'success' : parseInt(statusCode) == 200 ? true : false,
+        'statusCode': parseInt(statusCode), 'body': {'requestID': requestId, 'dataError': dataErrorMessage }}
 	
 } 
 
