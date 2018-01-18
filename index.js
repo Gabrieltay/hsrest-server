@@ -23,6 +23,15 @@ var errorCodeMessageMap = { 200: "",
                             504: "Request Timeout",
                             999: "No such error code for debugging. Please refer to documentation"}
 
+var statusCodeLineMap = { 200: "OK",
+                            400: "Bad Request",
+                            401: "Unauthorized",
+                            404: "Not Found",
+                            407: "Unauthorized",
+                            422: "Unprocessable Entity",
+                            504: "Timeout",
+                            999: "No such error code for debugging. Please refer to documentation"}
+
 var singleMissingAttributeError = " attribute is required" 
 var manyMissingAttributeError = " attributes are required"
 var missingAttributeDelimiter = ", "
@@ -70,7 +79,7 @@ function generateResponseBody(statusCode, requestId, dataErrorMessage) {
         'success' : parseInt(statusCode) == 200 ? true : false,
         'result' : {
             'statusCode' : parseInt(statusCode),
-            'statusLine' : "HTTP/1.1 " + parseInt(statusCode),
+            'statusLine' : "HTTP/1.1 " + parseInt(statusCode) + " " + statusCodeLineMap[parseInt(statusCode)],
             'contentType' : "application/json",
             'body': {
                 'requestID': requestId, 
