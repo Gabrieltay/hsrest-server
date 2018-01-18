@@ -132,7 +132,7 @@ app.post('/bgp/grantinfo', function(req, res) {
 })
 
 							
-app.put('/grantinfo/:grantid', function(req, res) {
+app.put('/bgp/grantinfo/:grantid', function(req, res) {
 
 	var reqBody = req.body
 	
@@ -162,7 +162,7 @@ app.put('/grantinfo/:grantid', function(req, res) {
 	
 })
 
-app.post('/riskreport/adhoc', function(req, res) {
+app.post('/bgp/riskreport/adhoc', function(req, res) {
 
 	var reqBody = req.body
 	
@@ -192,7 +192,7 @@ app.post('/riskreport/adhoc', function(req, res) {
 
 })
 														
-app.post('/riskreport/detailed', function(req, res) {
+app.post('/bgp/riskreport/detailed', function(req, res) {
 	
 	var reqBody = req.body
 	
@@ -222,7 +222,7 @@ app.post('/riskreport/detailed', function(req, res) {
 	
 })
 
-app.post('/watchblacklist', function(req,res) {
+app.post('/bgp/watchblacklist', function(req,res) {
 	var reqBody = req.body
 	
     resPayload = customErrorHandler(reqBody)
