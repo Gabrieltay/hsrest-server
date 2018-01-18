@@ -11,7 +11,7 @@ app.set('port', (process.env.PORT || 8080));
 
 
 app.get('/', function (req, res) {
-   res.send("Welcome to bgphs pseudo API server");
+   res.send("Welcome to bgphs pseudo API serverssss");
 })
 
 var errorCodeMessageMap = { 200: "",
