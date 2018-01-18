@@ -75,6 +75,7 @@ function checkParentKeys(jsonBody, expectedParentKeys) {
 
 function generateResponseBody(statusCode, requestId, dataErrorMessage) { 
     
+    /* // Full Body Response
 	return { 
         'success' : parseInt(statusCode) == 200 ? true : false,
         'result' : {
@@ -87,6 +88,8 @@ function generateResponseBody(statusCode, requestId, dataErrorMessage) {
                 }
             }
         }
+    */
+    return {'requestID': requestId, 'dataError': dataErrorMessage}
 } 
 
 function customErrorHandler(reqBody){
