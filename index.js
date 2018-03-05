@@ -111,7 +111,7 @@ app.post('/bgp/grantinfo', function(req, res) {
         res.status(resPayload[0]).json(resPayload[1])
     } else {
 		
-        var expectedParentAttributes = ["transactionID", "transactionTime", "applicationInfo", "applicationContactInfo", "applicationLocationDeployed", "claimInfo", "claimContactInfo", "claimLocationDeployed", "companyGeneralInfo", "projectInfo"]
+        var expectedParentAttributes = ["transactionID", "transactionTime", "response", "applicationInfo", "applicationContactInfo", "applicationLocationDeployed", "claimInfo", "claimContactInfo", "claimLocationDeployed", "companyGeneralInfo", "projectInfo"]
         var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
         var missingChildAttributes = []
 
@@ -141,7 +141,7 @@ app.put('/bgp/grantinfo/:grantid', function(req, res) {
         res.status(resPayload[0]).json(resPayload[1])
     } else {
 		
-        var expectedParentAttributes = ["transactionID", "transactionTime", "type", "data"]
+        var expectedParentAttributes = ["transactionID", "transactionTime", "type", "data", "response"]
         var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
         var missingChildAttributes = []
 
@@ -171,7 +171,7 @@ app.post('/bgp/riskreport/adhoc', function(req, res) {
         res.status(resPayload[0]).json(resPayload[1])
     } else {
 		
-        var expectedParentAttributes = ["transactionID", "transactionTime", "applicationID"]
+        var expectedParentAttributes = ["transactionID", "transactionTime", "applicationID", "response"]
         var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
         var missingChildAttributes = []
 
@@ -201,7 +201,7 @@ app.post('/bgp/riskreport/detailed', function(req, res) {
         res.status(resPayload[0]).json(resPayload[1])
     } else {
 		
-        var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate", "type", "grant"]
+        var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate", "type", "grant", "response"]
         var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
         var missingChildAttributes = []
 
