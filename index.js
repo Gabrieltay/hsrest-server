@@ -132,7 +132,7 @@ app.post('/bgp/grantinfo', function(req, res) {
 })
 
 							
-app.put('/bgp/grantinfo/:grantid', function(req, res) {
+app.post('/bgp/grantinfo/:grantid', function(req, res) {
 
 	var reqBody = req.body
 	
