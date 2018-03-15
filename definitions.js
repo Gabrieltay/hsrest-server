@@ -143,11 +143,11 @@ var definitions = {
 			},
 			"startDate": {
 				"type": ["string", "null"],
-				"format": "date-time"
+				"format": "date"
 			},
 			"endDate": {
 				"type": ["string", "null"],
-				"format": "date-time"
+				"format": "date"
 			},
 			"costs": {
 				"type": ["array", "null"],
