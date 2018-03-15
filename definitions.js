@@ -173,7 +173,7 @@ var definitions = {
 				"type": ["string", "null"]
 			},
 			"vendorSgRegisteredCheck": {
-				"type": "boolean"
+				"type": ["boolean", "null"]
 			}
 		}
 	},
