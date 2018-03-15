@@ -142,12 +142,10 @@ var definitions = {
 				"type": ["string", "null"]
 			},
 			"startDate": {
-				"type": ["string", "null"],
-				"format": "date"
+				"type": ["string", "null"]
 			},
 			"endDate": {
-				"type": ["string", "null"],
-				"format": "date"
+				"type": ["string", "null"]
 			},
 			"costs": {
 				"type": ["array", "null"],
