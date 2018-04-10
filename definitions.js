@@ -86,6 +86,9 @@ var definitions = {
 			},
 			"approvedGrantAmount": {
 				"type": ["string", "null"]
+			},
+			"claimStatus": {
+				"type": ["string","null"]
 			}
 		}
 	},
