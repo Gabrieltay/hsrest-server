@@ -193,7 +193,7 @@ app.post('/bgp/riskreport/adhoc', function(req, res) {
 
 })
 														
-app.post('/bgp/riskreport/detailed', verifyToken, function(req, res) {
+app.post('/bgp/riskreport/detailed', function(req, res) {
 	
 	var reqBody = req.body
 	
