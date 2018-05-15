@@ -2,7 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var definitions = require('./definitions.js')
 var Ajv = require('ajv')
-//var jwt = require('jsonwebtoken')
+var jwt = require('jsonwebtoken')
 
 
 var app = express()
