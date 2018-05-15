@@ -1,7 +1,8 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var definitions = require('./definitions.js')
-var Ajv = require('ajv');
+var Ajv = require('ajv')
+var jwt = require('jsonwebtoken')
 
 
 var app = express()
@@ -192,7 +193,7 @@ app.post('/bgp/riskreport/adhoc', function(req, res) {
 
 })
 														
-app.post('/bgp/riskreport/detailed', function(req, res) {
+app.post('/bgp/riskreport/detailed', verifyToken, function(req, res) {
 	
 	var reqBody = req.body
 	
@@ -304,4 +305,25 @@ function checkApplicationInfo(reqApplicationInfo) {
 
     return missingAttributes
 
+}
+
+// Verify Token
+function verifyToken(req, res, next) {
+    // Get auth header value
+    const bearerHeader = req.headers['authorization'];
+    // Check if bearer is undefined
+    if(typeof bearerHeader !== 'undefined') {
+      // Split at the space
+      const bearer = bearerHeader.split(' ');
+      // Get token from array
+      const bearerToken = bearer[1];
+      // Set the token
+      req.token = bearerToken;
+      // Next middleware
+      next();
+    } else {
+      // Forbidden
+      res.sendStatus(403);
+    }
+  
 }
