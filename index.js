@@ -18,6 +18,7 @@ app.get('/', function (req, res) {
 var errorCodeMessageMap = { 200: "",
                             400: "Request data field Error...",
                             401: "Authentication Failure",
+                            403: "Authorization Failure",
                             404: "Not Found",
                             407: "Authentication Failure",
                             422: "Invalid startDate format (hardcoded attribute for this errorCode)",
@@ -27,6 +28,7 @@ var errorCodeMessageMap = { 200: "",
 var statusCodeLineMap = { 200: "OK",
                             400: "Bad Request",
                             401: "Unauthorized",
+                            403: "Forbidden",
                             404: "Not Found",
                             407: "Unauthorized",
                             422: "Unprocessable Entity",
@@ -193,34 +195,40 @@ app.post('/bgp/riskreport/adhoc', function(req, res) {
 
 })
 														
-app.post('/bgp/riskreport/detailed', function(req, res) {
-	
-	var reqBody = req.body
-	
-    resPayload = customErrorHandler(reqBody)
-    if (resPayload.length == 2) {
-        res.status(resPayload[0]).json(resPayload[1])
-    } else {
-		
-        var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate", "type", "grant", "response"]
-        var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
-        var missingChildAttributes = []
+app.post('/bgp/riskreport/detailed', verifyToken, function(req, res) {
+    
+    var reqBody = req.body
 
-        for (i in expectedParentAttributes) {
-            if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
-                missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
-            }
-        } 
-
-        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
-
-        if (allMissingAttributes.length > 0) {
-            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
-        } else {
-            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200])) 
+    jwt.verify(req.token, secretkey, (err, authData) => {
+        if(err) {
+            res.sendStatus(403).json(generateResponseBody(403, reqBody.transactionID, errorCodeMessageMap[403]))
         }
-    }
-	
+        else {
+            resPayload = customErrorHandler(reqBody)
+            if (resPayload.length == 2) {
+                res.status(resPayload[0]).json(resPayload[1])
+            } else {
+		
+                var expectedParentAttributes = ["transactionID", "transactionTime", "startDate", "endDate", "type", "grant", "response"]
+                var missingParentAttributes = checkParentKeys(reqBody, expectedParentAttributes)
+                var missingChildAttributes = []
+
+                for (i in expectedParentAttributes) {
+                    if (missingParentAttributes.indexOf(expectedParentAttributes[i]) == -1) { //means the expectedParentAttribute exists, check the child
+                        missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
+                    }
+                } 
+
+                var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
+
+                if (allMissingAttributes.length > 0) {
+                    res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+                } else {
+                    res.status(200).json(generateResponseBody(200, reqBody.transactionID, authData)) 
+                }
+            }
+        }
+    });
 })
 
 app.post('/bgp/watchblacklist', function(req,res) {
