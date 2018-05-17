@@ -4,12 +4,12 @@ var definitions = require('./definitions.js')
 var Ajv = require('ajv')
 var jwt = require('jsonwebtoken')
 
-
 var app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.text())
 app.set('port', (process.env.PORT || 8080));
 
+const secretkey = 'Hello World';
 
 app.get('/', function (req, res) {
    res.send("Welcome to bgphs pseudo API server");
