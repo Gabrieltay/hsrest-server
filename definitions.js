@@ -73,15 +73,15 @@ var definitions = {
 
 	"claimInfo" : {
 		"type": ["object", "null"],
-		"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
+		"required": ["applicationID", "claimantNRIC", "claimantName", "approvedGrantAmount"],
 		"properties": {
 			"applicationID": {
 				"type": ["string", "null"]
 			},
-			"officerID": {
+			"claimantNRIC": {
 				"type": ["string", "null"]
 			},
-			"officerName": {
+			"claimantName": {
 				"type": ["string", "null"]
 			},
 			"approvedGrantAmount": {
