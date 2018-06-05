@@ -1,5 +1,5 @@
 var definitions = {
-	"applicationInfo" : {
+	"applicationInfo": {
 		"type": "object",
 		"required": ["applicationID", "userNric", "userName", "industryType", "developmentCategory", "functionalArea", "subFunctionalArea", "applicationStatus"],
 		"properties": {
@@ -30,7 +30,7 @@ var definitions = {
 		}
 	},
 
-	"applicationContactInfo" : {
+	"applicationContactInfo": {
 		"required": ["contactPersonName", "contactPersonDesignation", "contactPersonPhone", "contactPersonEmail", "contactPersonSecondaryEmail", "correspondenceAddress", "lofAddresseeName", "lofAddresseeDesignation", "lofAddresseeEmail"],
 		"type": "object",
 		"properties": {
@@ -48,7 +48,7 @@ var definitions = {
 			},
 			"contactPersonSecondaryEmail": {
 				"type": ["string", "null"]
-			},		
+			},
 			"correspondenceAddress": {
 				"$ref": "CorrespondenceAddressField"
 			},
@@ -64,14 +64,14 @@ var definitions = {
 		}
 	},
 
-	"applicationLocationDeployed" : {
+	"applicationLocationDeployed": {
 		"type": ["array", "null"],
 		"items": {
 			"$ref": "LocationDeployedObject"
 		}
 	},
 
-	"claimInfo" : {
+	"claimInfo": {
 		"type": ["object", "null"],
 		"required": ["applicationID", "claimantNRIC", "claimantName", "approvedGrantAmount"],
 		"properties": {
@@ -88,12 +88,12 @@ var definitions = {
 				"type": ["string", "null"]
 			},
 			"claimStatus": {
-				"type": ["string","null"]
+				"type": ["string", "null"]
 			}
 		}
 	},
 
-	"claimContactInfo" : {
+	"claimContactInfo": {
 		"type": ["object", "null"],
 		"required": ["applicationID", "officerID", "officerName", "approvedGrantAmount"],
 		"required": ["contactPersonName", "contactPersonDesignation", "contactPersonPhone", "contactPersonEmail", "contactPersonSecondaryEmail", "correspondenceAddress"],
@@ -113,21 +113,21 @@ var definitions = {
 			"contactPersonSecondaryEmail": {
 				"type": ["string", "null"]
 			},
-			
+
 			"correspondenceAddress": {
 				"$ref": "DeployedAddressField", // based on HW discussion, claim correspondence no foreignAddress. So use DeployedAddressField definition instead 
 			}
 		}
 	},
-		
-	"claimLocationDeployed" : {
+
+	"claimLocationDeployed": {
 		"type": ["array", "null"],
 		"items": {
 			"$ref": "LocationDeployedObject"
 		}
 	},
 
-	"companyGeneralInfo" : {
+	"companyGeneralInfo": {
 		"type": "object",
 		"required": ["companyUEN"],
 		"properties": {
@@ -137,7 +137,7 @@ var definitions = {
 		}
 	},
 
-	"projectInfo" : {
+	"projectInfo": {
 		"type": "object",
 		"required": ["projectTitle", "startDate", "endDate", "costs"],
 		"properties": {
@@ -153,16 +153,16 @@ var definitions = {
 			"costs": {
 				"type": ["array", "null"],
 				"items": {
-				"$ref": "CostItem"
+					"$ref": "CostItem"
 				}
 			}
 		}
 	},
 
-	"costItem" : {
+	"costItem": {
 		"$id": "CostItem",
 		"type": "object",
-		"required" : ["type", "vendorName", "vendorUEN", "vendorSgRegisteredCheck"],
+		"required": ["type", "vendorName", "vendorUEN", "vendorSgRegisteredCheck"],
 		"properties": {
 			"type": {
 				"type": ["string", "null"]
@@ -179,8 +179,8 @@ var definitions = {
 		}
 	},
 
-	"contactPerson" : {
-		"id": "ContactPerson", 
+	"contactPerson": {
+		"id": "ContactPerson",
 		"required": ["contactPersonName", "contactPersonDesignation", "contactPersonPhone", "contactPersonEmail", "contactPersonSecondaryEmail"],
 		"type": "object",
 		"properties": {
@@ -202,10 +202,10 @@ var definitions = {
 		}
 	},
 
-	"deployedAddressField" : {
+	"deployedAddressField": {
 		"id": "DeployedAddressField",
 		"type": ["object", "null"],
-		"required":["addressType", "block", "street", "level", "buildingName", "unit", "postalCode"],
+		"required": ["addressType", "block", "street", "level", "buildingName", "unit", "postalCode"],
 		"properties": {
 			"addressType": {
 				"type": ["string", "null"]
@@ -230,11 +230,11 @@ var definitions = {
 			}
 		}
 	},
-	
-	"correspondenceAddressField" : {
+
+	"correspondenceAddressField": {
 		"id": "CorrespondenceAddressField",
 		"type": "object",
-		"required":["addressType", "foreignAddress1", "foreignAddress2", "block", "street", "level", "buildingName", "unit", "postalCode"],
+		"required": ["addressType", "foreignAddress1", "foreignAddress2", "block", "street", "level", "buildingName", "unit", "postalCode"],
 		"properties": {
 			"addressType": {
 				"type": ["string", "null"]
@@ -265,7 +265,7 @@ var definitions = {
 			}
 		}
 	},
-	
+
 	"locationDeployedObject": {
 		"id": "LocationDeployedObject",
 		"type": "object",
@@ -280,7 +280,7 @@ var definitions = {
 			"locationDeployedAddress": {
 				"$ref": "DeployedAddressField"
 			}
-		}	
+		}
 	},
 
 
@@ -335,7 +335,7 @@ var definitions = {
 			}
 		}
 	},
-	
+
 	"updateEntity": {
 		"type": "object",
 		"required": ["entityType", "entityName", "entityID", "certificationNumber", "blacklist", "watchlist"],
@@ -384,7 +384,7 @@ var definitions = {
 			}
 		}
 	}
-	
+
 }
 
 module.exports = definitions
