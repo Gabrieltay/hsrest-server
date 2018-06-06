@@ -132,14 +132,17 @@ app.post('/bgp/grantinfo', function (req, res) {
                 missingChildAttributes = missingChildAttributes.concat(checkChildKeys(reqBody[expectedParentAttributes[i]], expectedParentAttributes[i]))
             }
         }
+        
+        // Skip Validation
+        //var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
 
-        var allMissingAttributes = missingParentAttributes.concat(missingChildAttributes)
-
-        if (allMissingAttributes.length > 0) {
-            res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
-        } else {
-            res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200]))
-        }
+        //if (allMissingAttributes.length > 0) {
+        //    res.status(400).json(generateResponseBody(400, reqBody.transactionID, allMissingAttributes.join(missingAttributeDelimiter) + (allMissingAttributes.length == 1 ? singleMissingAttributeError : manyMissingAttributeError)))
+        //} else {
+        //    res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200]))
+        //}
+        
+        res.status(200).json(generateResponseBody(200, reqBody.transactionID, errorCodeMessageMap[200]))
     }
 })
 
